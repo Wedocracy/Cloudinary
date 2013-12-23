@@ -71,7 +71,8 @@ class CloudinaryHelper extends HtmlHelper {
 		// TODO: fix coupling here - $this->url is defined in cl_image_tag
 		$extra = $this->cl_image_tag($filename, $options);
 
-		$image = sprintf($this->_tags['image'], $this->url, $this->_parseAttributes($options, null, '', ' '));
+		$exclude = array('crop', 'effect', 'secure');
+		$image = sprintf($this->_tags['image'], $this->url, $this->_parseAttributes($options, $exclude, '', ' '));
 
 		if ($url) {
 			return sprintf($this->_tags['link'], $u, null, $image);
