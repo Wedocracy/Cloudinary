@@ -216,10 +216,6 @@ class CloudinaryHelper extends HtmlHelper {
 		return $return;
 	}	
 	
-	public function cls_by_tag($tag) {	
-		return $this->getCloudImageByTag($tag);
-	}
-	
 	public function cl_images_by_tag($tag) {	
 		return $this->getCloudImageByTag($tag);
 	}	
