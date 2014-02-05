@@ -45,23 +45,18 @@ Call the component in controller
 *extended by/for wedocracy*
 
 Looks for all images with a given tag.
+
+	$peaches = $this->Cloudinary->cl_images_by_tag('peaches');
 	
-	<pre>
-		$peaches = $this->Cloudinary->cl_images_by_tag('peaches');
-	</pre>
-	
-will give you an array of image data for cloudinary tag "peaches". Then you can do stuff in conjunction with the other cloudinary methods.
-	
-	<pre>
-		<?php
-			$peaches = $this->Cloudinary->cl_images_by_tag('peaches');
-			foreach ($peaches as $peach){
-			echo '<div>';
-				echo cl_image_tag($peach['url'], array("crop" => "fill",'width' => 96,'height' => 96,'alt' => 'photo of a peach'),'title' => h('peaches are both fuzzy and tasty'),'class' => 'img-thumbnail'));
-			echo '</div>';
-			}
-		?>
-	</pre>
+will give you an array of image data for cloudinary tag "peaches". Then you can do stuff in your view, in conjunction with the other cloudinary methods.
+
+	$peaches = $this->Cloudinary->cl_images_by_tag('peaches');
+	foreach ($peaches as $peach):
+		echo '<div>';
+			echo cl_image_tag($peach['url'], array("crop" => "fill",'width' => 96,'height' => 96,'alt' => 'photo of a peach'),'title' => h('peaches are both fuzzy and tasty'),'class' => 'img-thumbnail'));
+		echo '</div>';
+	endforeach;
+
 	
 # Limitation
 	Currently, it only supports uploading and deleteing images. 
