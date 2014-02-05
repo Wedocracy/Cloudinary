@@ -15,6 +15,7 @@
 
 App::uses('HtmlHelper', 'View/Helper');
 App::import('Vendor', 'Cloudinary.Cloudinary', array('file' => 'cloudinary_php/src/Cloudinary.php'));
+App::import('Vendor', 'Cloudinary.Api', array('file' => 'cloudinary_php/src/Api.php'));
 
 class CloudinaryHelper extends HtmlHelper {
 
@@ -43,6 +44,7 @@ class CloudinaryHelper extends HtmlHelper {
 			putenv($this->env);
 		}
 		$this->Cloudinary = new Cloudinary($this);
+		$this->Api = new \Cloudinary\Api(); // Vendor file use namespace so we load it differently.
 	}
 
 	/**
@@ -171,4 +173,54 @@ class CloudinaryHelper extends HtmlHelper {
 
     	return $this->Cloudinary->html_attrs($options);
 	}
+	
+	
+	
+	private function getCloudImageByTag($tag) {
+		$cloudResourceObj = $this->getResourcesByTag($tag);
+		$cloudResources = $cloudResourceObj['resources'];
+		//pr ($cloudResource);
+		//$cloudImages = array_filter(explode('/', $cloudResource['url']));
+		//if (count($cloudImage) > 1) {
+		//	$cloudImage = $cloudImage[count($cloudImage)];
+		//}
+		return $cloudResources;
+	}
+
+/**
+ * 
+ * @param  string $tag      [description]
+ * @param  string $resource_type [description]
+ * @param  string $type          [description]
+ * @return [type]                [description]
+ */
+	private function getResourcesByTag($tag = '') {
+
+		$return = false; // default lets fail
+		$cache_key = 'cloudinary.'.$tag.'.apicache';
+		$exists = Cache::read($cache_key, $this->cache_name);
+
+		if (!$exists) {
+			if (!empty($tag)) {
+				 try {
+					$api = new \Cloudinary\Api();
+					$return = $api->resources_by_tag($tag);
+					Cache::write($cache_key, $return, $this->cache_name);
+				 } catch (Exception $e) {
+				  	// fail!
+				 }
+			}
+		} else {
+			$return = $exists;
+		}
+		return $return;
+	}	
+	
+	public function cls_by_tag($tag) {	
+		return $this->getCloudImageByTag($tag);
+	}
+	
+	public function cl_images_by_tag($tag) {	
+		return $this->getCloudImageByTag($tag);
+	}	
 }
