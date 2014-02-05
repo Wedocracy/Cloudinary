@@ -40,15 +40,17 @@ Call the component in controller
 				}
 			}	
 
-# new tag: cl_images_by_tag($tag) (extended by/for wedocracy)
+# new tag: cl_images_by_tag($tag) 
 
-	Looks for all images with a given tag.
+*extended by/for wedocracy*
+
+Looks for all images with a given tag.
 	
 	<pre>
 		$peaches = $this->Cloudinary->cl_images_by_tag('peaches');
 	</pre>
 	
-	will give you an array of image data for cloudinary tag "peaches". Then you can do stuff in conjunction with the other cloudinary methods.
+will give you an array of image data for cloudinary tag "peaches". Then you can do stuff in conjunction with the other cloudinary methods.
 	
 	<pre>
 		<?php
